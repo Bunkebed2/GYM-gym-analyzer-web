@@ -1,0 +1,241 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    text-align: center;
+    color: #667eea;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+.drop-area {
+    border: 3px dashed #667eea;
+    border-radius: 12px;
+    padding: 60px 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f8f9ff;
+}
+
+.drop-area:hover,
+.drop-area.highlight {
+    background: #e8ebff;
+    border-color: #764ba2;
+    transform: scale(1.02);
+}
+
+.drop-content {
+    pointer-events: none;
+}
+
+.drop-text {
+    font-size: 1.4em;
+    color: #667eea;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.drop-hint {
+    color: #999;
+    font-size: 0.95em;
+    margin-bottom: 20px;
+}
+
+.select-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    pointer-events: all;
+}
+
+.select-btn:hover {
+    transform: scale(1.05);
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.video-container {
+    margin-top: 30px;
+}
+
+.video-container h2 {
+    color: #667eea;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#video {
+    width: 100%;
+    display: block;
+}
+
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background 0.3s;
+}
+
+.control-btn:hover {
+    background: #764ba2;
+}
+
+.frame-label {
+    font-weight: 600;
+    color: #667eea;
+    padding: 10px 15px;
+    background: #f8f9ff;
+    border-radius: 6px;
+}
+
+.data-section {
+    margin-top: 30px;
+}
+
+.data-section h3 {
+    color: #667eea;
+    margin-bottom: 15px;
+}
+
+.mock-warning {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    color: #856404;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.data-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .data-display {
+        grid-template-columns: 1fr;
+    }
+}
+
+.angles-panel,
+.json-panel {
+    background: #f8f9ff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.angles-panel h4,
+.json-panel h4 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+#angles {
+    font-family: 'Courier New', monospace;
+}
+
+.angle-item {
+    padding: 8px;
+    margin: 5px 0;
+    background: white;
+    border-radius: 4px;
+    border-left: 4px solid #667eea;
+}
+
+#jsonOutput {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.85em;
+    line-height: 1.5;
+    max-height: 400px;
+    overflow-y: auto;
+}

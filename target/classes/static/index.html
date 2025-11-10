@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GYM Analyzer - Gymnastics Video Analysis POC</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🤸 GYM Analyzer</h1>
+        <p class="subtitle">Gymnastics Video Analysis - Proof of Concept</p>
+        
+        <div id="drop-area" class="drop-area">
+            <div class="drop-content">
+                <p class="drop-text">📹 Drop video file here or click to select</p>
+                <p class="drop-hint">Supported formats: MP4, MOV, AVI</p>
+                <input type="file" id="fileElem" accept="video/*" style="display:none">
+                <button id="selectButton" class="select-btn">Select Video</button>
+            </div>
+        </div>
+        
+        <div id="loading" class="loading" style="display:none;">
+            <div class="spinner"></div>
+            <p>Analyzing video... Please wait</p>
+        </div>
+        
+        <div id="videoContainer" class="video-container" style="display:none;">
+            <h2>Video Analysis Results</h2>
+            <div class="video-wrapper">
+                <video id="video" controls></video>
+                <canvas id="overlay"></canvas>
+            </div>
+            
+            <div class="controls">
+                <button id="playBtn" class="control-btn">▶️ Play</button>
+                <button id="pauseBtn" class="control-btn">⏸️ Pause</button>
+                <button id="toggleOverlay" class="control-btn">👁️ Toggle Overlay</button>
+                <label class="frame-label">
+                    Frame: <span id="currentFrame">0</span>
+                </label>
+            </div>
+        </div>
+        
+        <div id="dataSection" class="data-section" style="display:none;">
+            <h3>Analysis Data</h3>
+            <div id="mockWarning" class="mock-warning" style="display:none;">
+                ⚠️ Flask API unavailable - showing mock data
+            </div>
+            <div class="data-display">
+                <div class="angles-panel">
+                    <h4>Joint Angles</h4>
+                    <div id="angles"></div>
+                </div>
+                <div class="json-panel">
+                    <h4>Raw JSON Response</h4>
+                    <pre id="jsonOutput"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>
