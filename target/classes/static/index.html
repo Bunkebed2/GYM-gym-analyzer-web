@@ -9,56 +9,121 @@
 <body>
     <div class="container">
         <h1>🤸 GYM Analyzer</h1>
-        <p class="subtitle">Gymnastics Video Analysis - Proof of Concept</p>
+        <p class="subtitle">Gymnastics Video Analysis - Frame-by-Frame Analysis</p>
         
-        <div id="drop-area" class="drop-area">
-            <div class="drop-content">
-                <p class="drop-text">📹 Drop video file here or click to select</p>
-                <p class="drop-hint">Supported formats: MP4, MOV, AVI</p>
-                <input type="file" id="fileElem" accept="video/*" style="display:none">
-                <button id="selectButton" class="select-btn">Select Video</button>
+        <!-- Upload Section -->
+        <div id="uploadSection">
+            <div id="drop-area" class="drop-area">
+                <div class="drop-content">
+                    <p class="drop-text">📹 Drop video file here or click to select</p>
+                    <p class="drop-hint">Supported formats: MP4, MOV, AVI</p>
+                    <input type="file" id="fileElem" accept="video/*" style="display:none">
+                    <button id="selectButton" class="select-btn">Select Video</button>
+                </div>
             </div>
         </div>
         
+        <!-- Loading Indicator -->
         <div id="loading" class="loading" style="display:none;">
             <div class="spinner"></div>
-            <p>Analyzing video... Please wait</p>
+            <p>Processing... Please wait</p>
         </div>
         
-        <div id="videoContainer" class="video-container" style="display:none;">
-            <h2>Video Analysis Results</h2>
+        <!-- Video Section -->
+        <div id="videoSection" class="video-section" style="display:none;">
+            <h2>Video Player & Frame Analysis</h2>
+            
+            <!-- Video Player Wrapper -->
             <div class="video-wrapper">
-                <video id="video" controls></video>
+                <video id="video"></video>
                 <canvas id="overlay"></canvas>
+                <canvas id="bboxCanvas"></canvas>
             </div>
             
-            <div class="controls">
-                <button id="playBtn" class="control-btn">▶️ Play</button>
-                <button id="pauseBtn" class="control-btn">⏸️ Pause</button>
-                <button id="toggleOverlay" class="control-btn">👁️ Toggle Overlay</button>
-                <label class="frame-label">
-                    Frame: <span id="currentFrame">0</span>
-                </label>
+            <!-- Video Controls -->
+            <div class="video-controls">
+                <button id="playPauseBtn" class="control-btn">▶</button>
+                <input type="range" id="seekBar" class="seek-bar" value="0" min="0" max="100" step="0.1">
+                <span class="time-display">
+                    <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                </span>
             </div>
-        </div>
-        
-        <div id="dataSection" class="data-section" style="display:none;">
-            <h3>Analysis Data</h3>
-            <div id="mockWarning" class="mock-warning" style="display:none;">
-                ⚠️ Flask API unavailable - showing mock data
+            
+            <!-- Frame Controls -->
+            <div class="frame-controls">
+                <button id="frameBackBtn" class="control-btn" title="Previous Frame">◀◀</button>
+                <button id="frameForwardBtn" class="control-btn" title="Next Frame">▶▶</button>
+                <span class="frame-label">Frame: <span id="currentFrame">0</span></span>
             </div>
-            <div class="data-display">
+            
+            <!-- Analysis Controls -->
+            <div class="analysis-controls">
+                <button id="analyzeFrameBtn" class="action-btn">🎯 Analyze Current Frame</button>
+                <button id="selectAthleteBtn" class="action-btn">📦 Select Athlete Region</button>
+                <button id="clearBboxBtn" class="action-btn secondary">✖ Clear Selection</button>
+                <button id="downloadSnapshotBtn" class="action-btn secondary">💾 Download Snapshot</button>
+            </div>
+            
+            <!-- Overlay Settings -->
+            <div class="overlay-settings">
+                <h3>Overlay Settings</h3>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label>Opacity: <span id="opacityValue">80%</span></label>
+                        <input type="range" id="opacitySlider" min="0" max="100" value="80">
+                    </div>
+                    <div class="setting-item">
+                        <label>Keypoint Size: <span id="keypointSizeValue">8px</span></label>
+                        <input type="range" id="keypointSizeSlider" min="3" max="15" value="8">
+                    </div>
+                    <div class="setting-item">
+                        <label>Line Width: <span id="lineWidthValue">3px</span></label>
+                        <input type="range" id="lineWidthSlider" min="1" max="8" value="3">
+                    </div>
+                    <div class="setting-item checkbox-item">
+                        <label><input type="checkbox" id="showLabelsCheck" checked> Show Labels</label>
+                    </div>
+                    <div class="setting-item checkbox-item">
+                        <label><input type="checkbox" id="showAnglesCheck" checked> Show Angles</label>
+                    </div>
+                    <div class="setting-item checkbox-item">
+                        <label><input type="checkbox" id="showSkeletonCheck" checked> Show Skeleton</label>
+                    </div>
+                    <div class="setting-item checkbox-item">
+                        <label><input type="checkbox" id="colorCodedCheck" checked> Color Coded</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analysis Data Display -->
+            <div class="data-section">
+                <h3>Analysis Results</h3>
+                
+                <!-- Angles Display -->
                 <div class="angles-panel">
                     <h4>Joint Angles</h4>
-                    <div id="angles"></div>
+                    <div id="anglesDisplay"></div>
                 </div>
-                <div class="json-panel">
-                    <h4>Raw JSON Response</h4>
-                    <pre id="jsonOutput"></pre>
+                
+                <!-- Frame History -->
+                <div class="frame-history-panel">
+                    <h4>Analyzed Frames History</h4>
+                    <div id="frameHistory"></div>
+                </div>
+                
+                <!-- Raw Data (Collapsible) -->
+                <div class="raw-data-section">
+                    <h4 id="rawDataHeader" class="collapsible-header">Raw JSON Data ▼</h4>
+                    <div id="rawDataContent" class="collapsible-content">
+                        <pre id="jsonOutput"></pre>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <!-- Toast Notifications Container -->
+    <div class="toast-container"></div>
     
     <script src="main.js"></script>
 </body>
